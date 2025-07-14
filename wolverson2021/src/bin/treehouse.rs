@@ -1,18 +1,28 @@
 //! Binário do exemplo c.2 p.20-
-use wolverson2021::treehouse;
+use wolverson2021::treehouse::{self, Visitor};
 fn main() {
-    let name = treehouse::what_is_your_name();
-
-    let visitor_list = [
+    let mut visitor_list = vec![
         treehouse::Visitor::new("eduardo", "Hello eduardo"),
         treehouse::Visitor::new("Omar", "Nice to see you again, Omar!"),
         treehouse::Visitor::new("Carl", "Good day, Carl."),
     ];
+    loop {
+        let name = treehouse::what_is_your_name();
 
-    let known_visitor = visitor_list.iter().find(|visitor| visitor.name == name);
+        let known_visitor = visitor_list.iter().find(|visitor| visitor.name == name);
 
-    match known_visitor {
-        Some(visitor) => visitor.greet_visitor(),
-        None => println!("You are not on the visitor list. Please leave."),
+        match known_visitor {
+            Some(visitor) => visitor.greet_visitor(),
+            None => {
+                if name.is_empty() {
+                    break;
+                } else {
+                    println!("{} is not on the visitor list.", name);
+                    visitor_list.push(Visitor::new(&name, "New Friend"));
+                }
+            }
+        }
     }
+    println!("The final list of visitors: ");
+    println!("{:#?}", visitor_list);
 }
