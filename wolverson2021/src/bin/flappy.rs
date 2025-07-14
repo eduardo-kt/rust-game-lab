@@ -3,5 +3,12 @@
 
 struct State {}
 
+impl GameState for State {
+    fn tick(&mut self, ctx: &mut prelude::BTerm) {
+        ctx.cls();
+        ctx.print(1, 1, "Hello, Bracket Terminal");
+    }
+}
+
     println!("Hello world flappy dragon");
 }
