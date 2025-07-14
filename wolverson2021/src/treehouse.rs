@@ -11,6 +11,7 @@ pub fn what_is_your_name() -> String {
     your_name.trim().to_lowercase()
 }
 
+#[derive(Debug)]
 pub struct Visitor {
     pub name: String,
     pub greeting: String,
