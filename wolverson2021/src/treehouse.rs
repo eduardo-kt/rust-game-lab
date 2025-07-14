@@ -14,19 +14,32 @@ pub fn what_is_your_name() -> String {
 #[derive(Debug)]
 pub struct Visitor {
     pub name: String,
-    pub greeting: String,
+    pub action: VisitorAction,
+    pub age: i8,
 }
 
 impl Visitor {
-    pub fn new(name: &str, greeting: &str) -> Self {
+    pub fn new(name: &str, action: VisitorAction, age: i8) -> Self {
         Self {
             name: name.to_lowercase(),
-            greeting: greeting.to_string(),
+            action,
+            age,
         }
     }
 
     pub fn greet_visitor(&self) {
-        println!("{}", self.greeting);
+        match &self.action {
+            VisitorAction::Accept => println!("Welcome {}", self.name),
+            VisitorAction::AcceptWithNote { note } => {
+                println!("Welcome {}", self.name);
+                println!("{}", note);
+                if self.age < 21 {
+                    println!("{} not allowed to drink alcohol", self.name);
+                }
+            }
+            VisitorAction::Probation => println!("{} in probation", self.name),
+            VisitorAction::Refuse => println!("{} not allowed to enter", self.name),
+        }
     }
 }
 
