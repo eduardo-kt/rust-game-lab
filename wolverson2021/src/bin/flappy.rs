@@ -15,6 +15,9 @@ impl Player {
             velocity: 0.0,
         }
     }
+    fn render(&mut self, ctx: &mut BTerm) {
+        ctx.set(0, self.y, YELLOW, BLACK, to_cp437('@'));
+    }
 }
 enum GameMode {
     Menu,
@@ -84,7 +87,8 @@ impl GameState for State {
 }
 
 use bracket_lib::{
-    prelude::{BError, BTerm, BTermBuilder, GameState, VirtualKeyCode, main_loop},
+    color::{BLACK, YELLOW},
+    prelude::{BError, BTerm, BTermBuilder, GameState, VirtualKeyCode, main_loop, to_cp437},
     *,
 };
 fn main() -> BError {
