@@ -7,12 +7,38 @@ enum GameMode {
 }
 
 struct State {
-    mode: GameMode
+    mode: GameMode,
 }
 
 impl State {
     fn new() -> Self {
-        State { mode: GameMode::Menu }
+        State {
+            mode: GameMode::Menu,
+        }
+    }
+
+    fn play(&mut self, ctx: &mut BTerm) {
+        //TODO: fill in this stub later
+        self.mode = GameMode::End;
+    }
+
+    fn restart(&mut self) {
+        self.mode = GameMode::Playing;
+    }
+
+    fn main_menu(&mut self, ctx: &mut BTerm) {
+        ctx.cls();
+        ctx.print_centered(5, "Welcome to Flappy Dragon");
+        ctx.print_centered(8, "(P) Play Game");
+        ctx.print_centered(9, "(Q) Quit Game");
+
+        if let Some(key) = ctx.key {
+            match key {
+                VirtualKeyCode::P => self.restart(),
+                VirtualKeyCode::Q => ctx.quitting = true,
+                _ => {}
+            }
+        }
     }
 }
 
@@ -20,14 +46,14 @@ impl GameState for State {
     fn tick(&mut self, ctx: &mut prelude::BTerm) {
         match self.mode {
             GameMode::Menu => self.main_menu(ctx), //TODO
-            GameMode::End => self.dead(ctx), //TODO
-            GameMode::Playing => self.play(ctx), //TODO
-        }        
+            GameMode::End => self.dead(ctx),       //TODO
+            GameMode::Playing => self.play(ctx),   //TODO
+        }
     }
 }
 
 use bracket_lib::{
-    prelude::{main_loop, BError, BTermBuilder, GameState},
+    prelude::{main_loop, BError, BTerm, BTermBuilder, GameState, VirtualKeyCode},
     *,
 };
 fn main() -> BError {
