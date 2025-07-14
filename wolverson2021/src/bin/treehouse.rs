@@ -1,10 +1,16 @@
 //! Binário do exemplo c.2 p.20-
-use wolverson2021::treehouse::{self, Visitor};
+use wolverson2021::treehouse::{self, Visitor, VisitorAction};
 fn main() {
     let mut visitor_list = vec![
-        treehouse::Visitor::new("eduardo", "Hello eduardo"),
-        treehouse::Visitor::new("Omar", "Nice to see you again, Omar!"),
-        treehouse::Visitor::new("Carl", "Good day, Carl."),
+        treehouse::Visitor::new("eduardo", VisitorAction::Accept, 45),
+        treehouse::Visitor::new(
+            "Omar",
+            VisitorAction::AcceptWithNote {
+                note: String::from("Lactose issues"),
+            },
+            15,
+        ),
+        treehouse::Visitor::new("Carl", VisitorAction::Refuse, 30),
     ];
     loop {
         let name = treehouse::what_is_your_name();
@@ -18,7 +24,7 @@ fn main() {
                     break;
                 } else {
                     println!("{} is not on the visitor list.", name);
-                    visitor_list.push(Visitor::new(&name, "New Friend"));
+                    visitor_list.push(Visitor::new(&name, VisitorAction::Probation, 0));
                 }
             }
         }
