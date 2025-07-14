@@ -1,4 +1,4 @@
-//! Código referente ao capítulo 3 do livro 
+//! Código referente ao capítulo 3 do livro
 //! Wolverson, H. (2021). Hands-On Rust (1st ed). Pragmatic Programmers, LLC.
 
 struct State {}
@@ -10,5 +10,13 @@ impl GameState for State {
     }
 }
 
-    println!("Hello world flappy dragon");
+use bracket_lib::{
+    prelude::{main_loop, BError, BTermBuilder, GameState},
+    *,
+};
+fn main() -> BError {
+    let context = BTermBuilder::simple80x50()
+        .with_title("Flappy Dragon")
+        .build()?;
+    main_loop(context, State{})
 }
