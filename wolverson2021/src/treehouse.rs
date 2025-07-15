@@ -32,7 +32,7 @@ impl Visitor {
             VisitorAction::Accept => println!("Welcome {}", self.name),
             VisitorAction::AcceptWithNote { note } => {
                 println!("Welcome {}", self.name);
-                println!("{}", note);
+                println!("{note}");
                 if self.age < 21 {
                     println!("{} not allowed to drink alcohol", self.name);
                 }
