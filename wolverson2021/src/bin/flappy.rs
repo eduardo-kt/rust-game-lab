@@ -31,7 +31,6 @@ impl Player {
     fn flap(&mut self) {
         self.velocity = -2.0;
     }
-    
 }
 enum GameMode {
     Menu,
@@ -41,12 +40,17 @@ enum GameMode {
 
 struct State {
     mode: GameMode,
+    player: Player,
+    frame_time: f32,
 }
 
 impl State {
     fn new() -> Self {
         State {
             mode: GameMode::Menu,
+            player: Player::new(5, 25),
+            frame_time: 0.0,
+
         }
     }
 
@@ -57,6 +61,9 @@ impl State {
 
     fn restart(&mut self) {
         self.mode = GameMode::Playing;
+        self.player = Player::new(5, 25);
+        self.frame_time = 0.0;
+
     }
 
     fn main_menu(&mut self, ctx: &mut BTerm) {
