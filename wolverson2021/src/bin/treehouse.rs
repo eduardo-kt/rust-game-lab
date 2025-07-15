@@ -23,12 +23,12 @@ fn main() {
                 if name.is_empty() {
                     break;
                 } else {
-                    println!("{} is not on the visitor list.", name);
+                    println!("{name} is not on the visitor list.");
                     visitor_list.push(Visitor::new(&name, VisitorAction::Probation, 0));
                 }
             }
         }
     }
     println!("The final list of visitors: ");
-    println!("{:#?}", visitor_list);
+    println!("{visitor_list:#?}");
 }
