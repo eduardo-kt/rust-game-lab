@@ -14,10 +14,10 @@ impl Obstacle {
     fn new(x: i32, score: i32) -> Self {
         let mut random = RandomNumberGenerator::new();
         Obstacle {
-             x,
-             gap_y: random.range(10, 40), 
-             size: i32::max(2, 20-score) 
-            }
+            x,
+            gap_y: random.range(10, 40),
+            size: i32::max(2, 20 - score),
+        }
     }
     fn render(&mut self, ctx: &mut BTerm, player_x: i32) {
         let screen_x = self.x - player_x;
@@ -92,7 +92,6 @@ impl State {
             frame_time: 0.0,
             obstacle: Obstacle::new(SCREEN_WIDTH, 0),
             score: 0,
-
         }
     }
 
@@ -107,18 +106,23 @@ impl State {
             self.player.flap();
         }
         self.player.render(ctx);
-        ctx.print(0,0, "Press SPACE to flap.");
-        if self.player.y > SCREEN_HEIGHT {
-            self.mode = GameMode::End;
+        ctx.print(0, 0, "Press SPACE to flap.");
+        ctx.print(0, 1, &format!("Score: {}", self.score));
+        self.obstacle.render(ctx, self.player.x);
+        if self.player.x > self.obstacle.x {
+            self.score += 1;
+            self.obstacle = Obstacle::new(self.player.x + SCREEN_WIDTH, self.score);
         }
 
+        if self.player.y > SCREEN_HEIGHT || self.obstacle.hit_obstacle(&self.player) {
+            self.mode = GameMode::End;
+        }
     }
 
     fn restart(&mut self) {
         self.mode = GameMode::Playing;
         self.player = Player::new(5, 25);
         self.frame_time = 0.0;
-
     }
 
     fn main_menu(&mut self, ctx: &mut BTerm) {
@@ -162,8 +166,13 @@ impl GameState for State {
     }
 }
 
+use std::fmt::format;
+
 use bracket_lib::{
-    color::{BLACK, NAVY, RED, YELLOW}, prelude::{main_loop, to_cp437, BError, BTerm, BTermBuilder, GameState, VirtualKeyCode}, random::RandomNumberGenerator, *
+    color::{BLACK, NAVY, RED, YELLOW},
+    prelude::{BError, BTerm, BTermBuilder, GameState, VirtualKeyCode, main_loop, to_cp437},
+    random::RandomNumberGenerator,
+    *,
 };
 fn main() -> BError {
     let context = BTermBuilder::simple80x50()
