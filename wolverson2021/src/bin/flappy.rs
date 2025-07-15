@@ -107,7 +107,7 @@ impl State {
         }
         self.player.render(ctx);
         ctx.print(0, 0, "Press SPACE to flap.");
-        ctx.print(0, 1, &format!("Score: {}", self.score));
+        ctx.print(0, 1, format!("Score: {}", self.score));
         self.obstacle.render(ctx, self.player.x);
         if self.player.x > self.obstacle.x {
             self.score += 1;
@@ -145,7 +145,7 @@ impl State {
     fn dead(&mut self, ctx: &mut BTerm) {
         ctx.cls();
         ctx.print_centered(5, "You are dead!");
-        ctx.print_centered(6, &format!("You earned {} points", self.score));
+        ctx.print_centered(6, format!("You earned {} points", self.score));
         ctx.print_centered(8, "(P) Play Again");
         ctx.print_centered(9, "(Q) Quit Game");
 
@@ -168,8 +168,6 @@ impl GameState for State {
         }
     }
 }
-
-use std::fmt::format;
 
 use bracket_lib::{
     color::{BLACK, NAVY, RED, YELLOW},
