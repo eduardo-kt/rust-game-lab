@@ -10,6 +10,16 @@ struct Obstacle {
     gap_y: i32,
     size: i32,
 }
+impl Obstacle {
+    fn new(x: i32, score: i32) -> Self {
+        let mut random = RandomNumberGenerator::new();
+        Obstacle {
+             x,
+             gap_y: random.range(10, 40), 
+             size: i32::max(2, 20-score) 
+            }
+    }
+}
 
 struct Player {
     x: i32,
@@ -131,9 +141,7 @@ impl GameState for State {
 }
 
 use bracket_lib::{
-    color::{BLACK, NAVY, YELLOW},
-    prelude::{main_loop, to_cp437, BError, BTerm, BTermBuilder, GameState, VirtualKeyCode},
-    *,
+    color::{BLACK, NAVY, YELLOW}, prelude::{main_loop, to_cp437, BError, BTerm, BTermBuilder, GameState, VirtualKeyCode}, random::RandomNumberGenerator, *
 };
 fn main() -> BError {
     let context = BTermBuilder::simple80x50()
